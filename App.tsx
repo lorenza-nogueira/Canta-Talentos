@@ -881,22 +881,63 @@ function FormSection() {
     "Outros",
   ];
 
-  // Track individual-submission emails across renders (module-level so it persists between closes)
-  const handleSubmit = (e: React.FormEvent) => {
+  const INSCRICOES_URL = import.meta.env.VITE_INSCRICOES_URL as string | undefined;
+  const MAX_TOTAL_MB = 30;
+
+  const toBase64 = (file: File) =>
+    new Promise<{ name: string; type: string; data: string }>((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve({ name: file.name, type: file.type || "application/octet-stream", data: String(r.result).split(",")[1] });
+      r.onerror = () => reject(r.error);
+      r.readAsDataURL(file);
+    });
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setEmailError("");
 
-    if (formData.participation === "individual") {
-      const key = `canta_individual_${formData.email.toLowerCase().trim()}`;
-      if (sessionStorage.getItem(key)) {
-        setEmailError("Este e-mail já possui uma inscrição individual. Projetos em dupla ou grupo podem ser enviados à vontade!");
-        return;
-      }
-      sessionStorage.setItem(key, "1");
+    if (!INSCRICOES_URL) {
+      setEmailError("O envio de inscrições ainda não foi configurado. Avise a organização.");
+      return;
+    }
+
+    const files = [photoFile, videoFile, audioFile].filter((f): f is File => !!f);
+    const totalMb = files.reduce((acc, f) => acc + f.size, 0) / 1024 / 1024;
+    if (totalMb > MAX_TOTAL_MB) {
+      setEmailError(`Os anexos somam ${totalMb.toFixed(1)} MB. O limite é ${MAX_TOTAL_MB} MB — para arquivos maiores, use o campo "Link externo" (YouTube, Drive, etc.).`);
+      return;
     }
 
     setSubmitting(true);
-    setTimeout(() => { setSubmitting(false); setSubmitted(true); }, 1800);
+    try {
+      const payload = {
+        ...formData,
+        email: formData.email.toLowerCase().trim(),
+        externalLink,
+        photo: photoFile ? await toBase64(photoFile) : null,
+        video: videoFile ? await toBase64(videoFile) : null,
+        audio: audioFile ? await toBase64(audioFile) : null,
+      };
+      // text/plain evita o bloqueio de CORS do Google Apps Script
+      const res = await fetch(INSCRICOES_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload),
+      });
+      const result = await res.json();
+      if (!result.ok) {
+        setEmailError(result.error || "Não foi possível enviar sua inscrição. Tente novamente.");
+        return;
+      }
+      setSubmitted(true);
+      setFormData({ name: "", email: "", area: "", talentName: "", category: "", description: "", participation: "individual", authorized: false });
+      setPhotoFile(null); setVideoFile(null); setAudioFile(null); setExternalLink("");
+    } catch (err) {
+      console.error(err);
+      setEmailError("Falha de conexão ao enviar. Verifique sua internet e tente novamente.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const closeModal = () => setSubmitted(false);
