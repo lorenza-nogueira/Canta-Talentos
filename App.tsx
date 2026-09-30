@@ -1346,6 +1346,23 @@ function FormSection() {
       setSubmitting(false)
     }
   }
+  // Track individual-submission emails across renders (module-level so it persists between closes)
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setEmailError("");
+
+    if (formData.participation === "individual") {
+      const key = `canta_individual_${formData.email.toLowerCase().trim()}`;
+      if (sessionStorage.getItem(key)) {
+        setEmailError("Este e-mail já possui uma inscrição individual. Projetos em dupla ou grupo podem ser enviados à vontade!");
+        return;
+      }
+      sessionStorage.setItem(key, "1");
+    }
+
+    setSubmitting(true);
+    setTimeout(() => { setSubmitting(false); setSubmitted(true); }, 1800);
+  };
 
   const closeModal = () => setSubmitted(false)
 
