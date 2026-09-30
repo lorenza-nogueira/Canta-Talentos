@@ -1,0 +1,16 @@
+{
+  "description": "Revelando e celebrando as paixões da nossa gente\n\nO Canta Talentos conecta colaboradores por meio de seus hobbies e talentos, incentivando a participação em uma iniciativa interna por meio de um concurso de talentos com premiações.",
+  "robots": {
+    "index": false
+  },
+  "icons": {
+    "icon": "/.figma/make/favicon.png"
+  },
+  "openGraph": {
+    "image": "/.figma/make/social-image.png"
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
