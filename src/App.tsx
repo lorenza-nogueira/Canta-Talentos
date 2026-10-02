@@ -204,7 +204,7 @@ function Header() {
       className="fixed left-0 right-0 z-50 transition-all duration-300"
       style={{
         top: 0,
-        marginTop: "60px",
+        marginTop: 0,
         paddingTop: "env(safe-area-inset-top)",
         background: scrolled ? "rgba(15,15,15,0.95)" : "transparent",
         backdropFilter: scrolled ? "blur(16px)" : "none",
@@ -568,7 +568,7 @@ function HowItWorks() {
       emoji: "🔎",
       num: "01",
       title: "MOSTRE",
-      period: "20/08 → 23/09/2026",
+      period: "19/10 → 23/11/2026",
       desc: "Tire seu talento dos bastidores. Envie seu projeto pela Landing Page e compartilhe com a CANTA aquilo que você faz, cria ou ama.",
       detail: "1 projeto individual + participação ilimitada em projetos em dupla ou grupo.",
       accent: BLUE,
@@ -577,7 +577,7 @@ function HowItWorks() {
       emoji: "🗳️",
       num: "02",
       title: "VOTE",
-      period: "24/09 → 08/10/2026",
+      period: "24/11 → 09/12/2026",
       desc: "Agora, a cena é dos seus colegas. Conheça os talentos que estavam escondidos por aqui e vote em um ou mais projetos favoritos.",
       detail: "Só não vale votar no próprio projeto. 😉",
       accent: PINK,
@@ -586,8 +586,8 @@ function HowItWorks() {
       emoji: "🏆",
       num: "03",
       title: "CELEBRE",
-      period: "08/10/2026",
-      desc: "É hora de descobrir quem conquistou o público! No Dia do Bem-estar, vamos conhecer os 3 talentos mais votados, que serão premiados.",
+      period: "09/12/2026",
+      desc: "É hora de descobrir quem conquistou o público! Em 09/12, vamos conhecer os 3 talentos mais votados, que serão premiados.",
       detail: "Prepare a torcida. O próximo destaque pode ser você! ✨",
       accent: WHITE,
     },
@@ -730,14 +730,14 @@ function ProcessModal({
         "Dê um nome criativo para o seu projeto.",
         "Faça o upload do material: foto, vídeo, áudio ou outro formato.",
         "Projetos individuais: 1 inscrição por e-mail. Duplas e grupos: sem limite.",
-        "Prazo: até 23/09/2026.",
+        "Prazo: até 23/11/2026.",
       ],
     },
     "02": {
       heading: "Como funciona a votação",
       bullets: [
         "Todos os colaboradores da CANTA poderão votar nos projetos inscritos.",
-        "A votação acontece entre 24/09 e 08/10/2026.",
+        "A votação acontece entre 24/11 e 09/12/2026.",
         "Você pode votar em mais de um projeto — mas não no seu próprio.",
         "Link de votação será divulgado pelos canais internos.",
         "Os 3 projetos com mais votos serão os premiados.",
@@ -746,7 +746,7 @@ function ProcessModal({
     "03": {
       heading: "A celebração dos talentos",
       bullets: [
-        "Os resultados serão revelados no Dia do Bem-estar: 08/10/2026.",
+        "Os resultados serão revelados em 09/12/2026.",
         "Os 3 talentos mais votados receberão vouchers especiais.",
         "🥇 1º lugar: voucher R$ 500",
         "🥈 2º lugar: voucher R$ 300",
@@ -995,7 +995,7 @@ function FormSection() {
             Obrigado por participar do CANTA Talentos. A sua inscrição foi recebida com sucesso. 🎉
           </p>
           <p className="mb-8" style={{ fontFamily: "var(--font-body)", color: "rgba(255,255,255,0.45)", fontSize: "0.88rem", lineHeight: 1.6 }}>
-            Fique de olho nas próximas etapas — a votação começa em 24/09. Boa sorte! ✨
+            Fique de olho nas próximas etapas — a votação começa em 24/11. Boa sorte! ✨
           </p>
 
           <button className="btn-primary w-full" style={{ fontSize: "0.95rem" }} onClick={closeModal}>
@@ -1299,7 +1299,7 @@ function Premio() {
 
         {/* CTA nudge */}
         <p className="mt-10 text-white/40 text-sm" style={{ fontFamily: "var(--font-body)" }}>
-          Resultado anunciado no Dia do Bem-estar — <strong className="text-white/60">08/10</strong>
+          Resultado anunciado em <strong className="text-white/60">09/12</strong>
         </p>
       </div>
     </section>
@@ -1444,7 +1444,7 @@ function Regulamento() {
 const faqItems = [
   { q: "O que é o Canta Talentos?", a: "O Canta Talentos é um projeto interno para descobrir e compartilhar talentos, hobbies, habilidades e projetos dos colaboradores da agência. É uma oportunidade para mostrar aquilo que você gosta de fazer além da rotina de trabalho." },
   { q: "Preciso fazer uma apresentação ao vivo?", a: "Não! Não haverá apresentações ao vivo. Você deverá cadastrar seu talento pela Landing Page e enviar um material que represente seu projeto, como vídeo, foto, texto, áudio ou outro formato disponível." },
-  { q: "Quando posso enviar meu talento?", a: "As submissões começam no dia 📅 20 de agosto e terminam no dia 📅 23 de setembro." },
+  { q: "Quando posso enviar meu talento?", a: "As submissões começam no dia 📅 19 de outubro e terminam no dia 📅 23 de novembro." },
   { q: "Quantos talentos posso enviar?", a: "Você pode enviar 1 projeto individual e participar de quantos projetos em dupla ou grupo quiser." },
   { q: "Posso participar de vários projetos coletivos?", a: "Sim! Não existe limite para a quantidade de projetos em dupla ou grupo dos quais você pode participar." },
   { q: "Posso enviar um projeto individual e também participar de projetos em grupo?", a: "Sim! O limite de 1 submissão é válido apenas para projetos individuais. Você pode enviar seu próprio projeto e participar de quantos projetos coletivos desejar." },
@@ -1453,8 +1453,8 @@ const faqItems = [
   { q: "Meu talento não está na lista. Posso participar?", a: "Sim! A lista de exemplos não é limitada. Se você tem uma habilidade, hobby ou projeto que gostaria de compartilhar, esse espaço também é seu." },
   { q: "Preciso aparecer no material enviado?", a: "Não. Você pode aparecer, narrar, demonstrar seu talento ou simplesmente apresentar o resultado do seu projeto." },
   { q: "Posso participar com colegas?", a: "Sim! Você pode criar um projeto em dupla ou grupo com outros colaboradores. Não há limite específico de integrantes, desde que todos sejam colaboradores da agência." },
-  { q: "Quando começa a votação?", a: "A votação começa no dia 🗳️ 24 de setembro e ficará aberta até 💜 08 de outubro, Dia do Bem-estar." },
-  { q: "Quem será o vencedor?", a: "Serão premiados os 3 talentos mais votados durante o período oficial de votação. O resultado será anunciado no Dia do Bem-estar — 08 de outubro." },
+  { q: "Quando começa a votação?", a: "A votação começa no dia 🗳️ 24 de novembro e ficará aberta até 💜 09 de dezembro." },
+  { q: "Quem será o vencedor?", a: "Serão premiados os 3 talentos mais votados durante o período oficial de votação. O resultado será anunciado em 09 de dezembro." },
   { q: "Posso votar no meu próprio projeto?", a: "Não vale votar em si mesmo! 😉 Cada colaborador poderá votar em outros projetos, mas não no próprio." },
   { q: "Posso votar mais de uma vez?", a: "Sim! Você poderá votar em um ou mais projetos e escolher os talentos que mais gostou. Só não vale votar no próprio projeto. 💜" },
   { q: "O que acontece se houver empate?", a: "Em caso de empate, será aplicado o critério de desempate definido pela organização e comunicado aos participantes." },
@@ -1462,7 +1462,7 @@ const faqItems = [
   { q: "Posso enviar um projeto que já existe?", a: "Sim! Seu projeto não precisa ter sido criado especialmente para o Canta Talentos. Pode ser algo que você já desenvolve há anos ou algo que começou recentemente." },
   { q: "Posso desistir depois de enviar meu projeto?", a: "Sim. Caso queira retirar sua participação, entre em contato com a organização para verificar a possibilidade de remoção do conteúdo." },
   { q: "E se eu tiver vergonha de participar?", a: "Esse é um ótimo motivo para participar! 😄 Você não precisa ser profissional ou ter um talento extraordinário. O objetivo é descobrir um lado dos nossos colegas que normalmente não aparece no dia a dia." },
-  { q: "Qual é a principal regra?", a: "Não deixe seu talento escondido! 💜 Escolha algo que você ama fazer, prepare seu material e compartilhe com a gente. 20/08: começa a descoberta. 24/09: começa a votação. 08/10: celebramos os talentos!" },
+  { q: "Qual é a principal regra?", a: "Não deixe seu talento escondido! 💜 Escolha algo que você ama fazer, prepare seu material e compartilhe com a gente. 19/10: começa a descoberta. 24/11: começa a votação. 09/12: celebramos os talentos!" },
 ];
 
 function FAQItem({ q, a }: { q: string; a: string }) {
