@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import logoMain from "@/imports/Prancheta_1_1-1.png";
-import regulamentoPdf from "@/imports/CANTA_Talentos_Regulamento_-_ATUALIZAR_CRONOGRAMA.pdf";
+const regulamentoPdf = "https://media.githubusercontent.com/media/lorenza-nogueira/Canta-Talentos/main/imports/CANTA%20Talentos_Regulamento.pdf";
 import avatarIcon from "@/imports/Prancheta_2.png";
 import videoSrc from "@/imports/Canta_Talentos_V1.1-1.mp4";
 import videoVerticalSrc from "@/imports/Canta_Talentos_Vertical.mp4";
