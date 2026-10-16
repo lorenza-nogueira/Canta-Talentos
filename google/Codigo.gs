@@ -20,6 +20,13 @@ function getSheet_() {
     sh.appendRow(HEADERS);
     sh.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold');
     sh.setFrozenRows(1);
+  } else {
+    // Garante que todas as colunas existam, mesmo em planilhas criadas por versões antigas
+    const existing = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0].map(String);
+    const missing = HEADERS.filter(h => existing.indexOf(h) === -1);
+    if (missing.length) {
+      sh.getRange(1, sh.getLastColumn() + 1, 1, missing.length).setValues([missing]).setFontWeight('bold');
+    }
   }
   return sh;
 }
@@ -34,6 +41,13 @@ function saveFile_(folder, file, prefix) {
   const created = folder.createFile(blob);
   created.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
   return created.getUrl();
+}
+
+// Escreve cada valor na coluna certa, pelo nome do cabeçalho (não pela posição)
+function appendRowByHeader_(sh, valuesByHeader) {
+  const headers = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0].map(String);
+  const row = headers.map(h => valuesByHeader[h] !== undefined ? valuesByHeader[h] : '');
+  sh.appendRow(row);
 }
 
 function doPost(e) {
@@ -61,12 +75,23 @@ function doPost(e) {
     const folder = DriveApp.getFolderById(FOLDER_ID);
     const prefix = id + ' - ' + d.name;
 
-    sh.appendRow([
-      new Date(), d.name, email, d.area, d.talentName, d.category, d.description,
-      d.participation, d.externalLink || '',
-      saveFile_(folder, d.photo, prefix), saveFile_(folder, d.video, prefix), saveFile_(folder, d.audio, prefix), saveFile_(folder, d.pdf, prefix),
-      'Sim', id,
-    ]);
+    appendRowByHeader_(sh, {
+      'Data/Hora': new Date(),
+      'Nome completo': d.name,
+      'E-mail': email,
+      'Área/Equipe': d.area,
+      'Nome do talento/projeto': d.talentName,
+      'Categoria': d.category,
+      'Descrição': d.description,
+      'Tipo de participação': d.participation,
+      'Link externo': d.externalLink || '',
+      'Foto': saveFile_(folder, d.photo, prefix),
+      'Vídeo': saveFile_(folder, d.video, prefix),
+      'Áudio': saveFile_(folder, d.audio, prefix),
+      'PDF': saveFile_(folder, d.pdf, prefix),
+      'Autorizou divulgação': 'Sim',
+      'ID da inscrição': id,
+    });
 
     return json_({ ok: true, id: id });
   } catch (err) {
