@@ -728,7 +728,7 @@ function ProcessModal({
         "Preencha seus dados: nome, e-mail corporativo, área e equipe.",
         "Escolha uma categoria que melhor representa seu talento.",
         "Dê um nome criativo para o seu projeto.",
-        "Faça o upload do material: foto, vídeo, áudio ou outro formato.",
+        "Faça o upload do material: foto, vídeo, áudio, PDF ou outro formato.",
         "Projetos individuais: 1 inscrição por e-mail. Duplas e grupos: sem limite.",
         "Prazo: até 23/11/2026.",
       ],
@@ -858,6 +858,7 @@ function FormSection() {
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [externalLink, setExternalLink] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -901,7 +902,7 @@ function FormSection() {
       return;
     }
 
-    const files = [photoFile, videoFile, audioFile].filter((f): f is File => !!f);
+    const files = [photoFile, videoFile, audioFile, pdfFile].filter((f): f is File => !!f);
     const totalMb = files.reduce((acc, f) => acc + f.size, 0) / 1024 / 1024;
     if (totalMb > MAX_TOTAL_MB) {
       setEmailError(`Os anexos somam ${totalMb.toFixed(1)} MB. O limite é ${MAX_TOTAL_MB} MB — para arquivos maiores, use o campo "Link externo" (YouTube, Drive, etc.).`);
@@ -917,6 +918,7 @@ function FormSection() {
         photo: photoFile ? await toBase64(photoFile) : null,
         video: videoFile ? await toBase64(videoFile) : null,
         audio: audioFile ? await toBase64(audioFile) : null,
+        pdf: pdfFile ? await toBase64(pdfFile) : null,
       };
       // text/plain evita o bloqueio de CORS do Google Apps Script
       const res = await fetch(INSCRICOES_URL, {
@@ -931,7 +933,7 @@ function FormSection() {
       }
       setSubmitted(true);
       setFormData({ name: "", email: "", area: "", talentName: "", category: "", description: "", participation: "individual", authorized: false });
-      setPhotoFile(null); setVideoFile(null); setAudioFile(null); setExternalLink("");
+      setPhotoFile(null); setVideoFile(null); setAudioFile(null); setPdfFile(null); setExternalLink("");
     } catch (err) {
       console.error(err);
       setEmailError("Falha de conexão ao enviar. Verifique sua internet e tente novamente.");
@@ -1090,11 +1092,12 @@ function FormSection() {
 
           <div>
             <p className="form-label mb-3">Anexos</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 { label: "📸 Foto", icon: "📸", accept: "image/*", file: photoFile, setFile: setPhotoFile, id: "photo-upload" },
                 { label: "🎬 Vídeo", icon: "🎬", accept: "video/*", file: videoFile, setFile: setVideoFile, id: "video-upload" },
                 { label: "🎵 Áudio", icon: "🎵", accept: "audio/*", file: audioFile, setFile: setAudioFile, id: "audio-upload" },
+                { label: "📄 PDF", icon: "📄", accept: "application/pdf,.pdf", file: pdfFile, setFile: setPdfFile, id: "pdf-upload" },
               ].map(({ icon, accept, file, setFile, id, label }) => (
                 <label key={id} htmlFor={id} className="upload-zone block cursor-pointer">
                   <input id={id} type="file" accept={accept}
