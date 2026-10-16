@@ -31,7 +31,9 @@ function json_(obj) {
 function saveFile_(folder, file, prefix) {
   if (!file || !file.data) return '';
   const blob = Utilities.newBlob(Utilities.base64Decode(file.data), file.type, prefix + ' - ' + file.name);
-  return folder.createFile(blob).getUrl();
+  const created = folder.createFile(blob);
+  created.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  return created.getUrl();
 }
 
 function doPost(e) {
