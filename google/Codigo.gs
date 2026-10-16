@@ -9,7 +9,7 @@ const SHEET_NAME = 'Inscricoes';
 const HEADERS = [
   'Data/Hora', 'Nome completo', 'E-mail', 'Área/Equipe', 'Nome do talento/projeto',
   'Categoria', 'Descrição', 'Tipo de participação', 'Link externo',
-  'Foto', 'Vídeo', 'Áudio', 'Autorizou divulgação', 'ID da inscrição',
+  'Foto', 'Vídeo', 'Áudio', 'PDF', 'Autorizou divulgação', 'ID da inscrição',
 ];
 
 function getSheet_() {
@@ -62,7 +62,7 @@ function doPost(e) {
     sh.appendRow([
       new Date(), d.name, email, d.area, d.talentName, d.category, d.description,
       d.participation, d.externalLink || '',
-      saveFile_(folder, d.photo, prefix), saveFile_(folder, d.video, prefix), saveFile_(folder, d.audio, prefix),
+      saveFile_(folder, d.photo, prefix), saveFile_(folder, d.video, prefix), saveFile_(folder, d.audio, prefix), saveFile_(folder, d.pdf, prefix),
       'Sim', id,
     ]);
 
