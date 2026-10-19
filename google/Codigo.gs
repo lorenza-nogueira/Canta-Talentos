@@ -103,5 +103,5 @@ function doPost(e) {
 }
 
 function doGet() {
-  return json_({ ok: true, status: 'Inscrições CANTA Talentos ativas' });
+  return json_({ ok: true, status: 'Inscrições CANTA Talentos ativas', versao: 'v3-colunas-por-nome' });
 }
