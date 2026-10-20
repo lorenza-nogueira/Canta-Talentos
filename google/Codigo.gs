@@ -37,9 +37,20 @@ function json_(obj) {
 
 function saveFile_(folder, file, prefix) {
   if (!file || !file.data) return '';
-  const blob = Utilities.newBlob(Utilities.base64Decode(file.data), file.type, prefix + ' - ' + file.name);
-  const created = folder.createFile(blob);
-  created.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  let created;
+  try {
+    const blob = Utilities.newBlob(Utilities.base64Decode(file.data), file.type || 'application/octet-stream', prefix + ' - ' + file.name);
+    created = folder.createFile(blob);
+  } catch (err) {
+    console.error('Falha ao salvar arquivo no Drive: ' + err);
+    return 'ERRO ao salvar arquivo: ' + err;
+  }
+  // Tenta liberar o link; se a conta/empresa bloquear, o arquivo continua salvo na pasta
+  try {
+    created.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  } catch (err) {
+    console.warn('Não foi possível liberar o link público: ' + err);
+  }
   return created.getUrl();
 }
 
@@ -96,12 +107,12 @@ function doPost(e) {
     return json_({ ok: true, id: id });
   } catch (err) {
     console.error(err);
-    return json_({ ok: false, error: 'Erro ao salvar a inscrição. Tente novamente em instantes.' });
+    return json_({ ok: false, error: 'Erro ao salvar a inscrição. Tente novamente em instantes.', detalhe: String(err) });
   } finally {
     lock.releaseLock();
   }
 }
 
 function doGet() {
-  return json_({ ok: true, status: 'Inscrições CANTA Talentos ativas', versao: 'v3-colunas-por-nome' });
+  return json_({ ok: true, status: 'Inscrições CANTA Talentos ativas', versao: 'v4-anexos-corrigidos' });
 }
